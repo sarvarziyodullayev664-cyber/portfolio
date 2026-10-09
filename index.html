@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarvar Ziyodullayev | 3D Creative Portfolio & Software Engineer</title>
+  
+  <!-- Meta tags for SEO & Social Sharing -->
+  <meta name="description" content="Sarvar Ziyodullayev - 19 yoshli professional Video montajor, Mobil videograf, Motion dizayner, SMM Targetolog va QDTU Dasturiy Injenering talabasi (Python Developer).">
+  <meta name="keywords" content="Sarvar Ziyodullayev, Video montajor, Mobil videograf, Motion dizayn, Motion graphics, SMM, Targetolog, Python Developer, QDTU, Dasturiy Injenering, Kitob, Qashqadaryo">
+  <meta name="author" content="Sarvar Ziyodullayev">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            emerald: {
+              400: '#00ff87',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+              950: '#022c22',
+            },
+            carbon: {
+              900: '#040806',
+              950: '#020503'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#040806] text-white selection:bg-[#00ff87] selection:text-black">
+
+  <!-- WebGL 3D Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Matrix Grid & Ambient Radial Light -->
+  <div class="bg-grid-overlay"></div>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Custom Interactive Cursor (Desktop) -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-glow"></div>
+
+  <!-- ==========================================================================
+       NAVIGATION BAR
+       ========================================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 pt-4 pb-2 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between nav-blur-container px-5 py-3">
+      
+      <!-- Logo Monogram -->
+      <a href="#home" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00ff87] to-[#047857] p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_20px_rgba(0,255,135,0.4)]">
+          <div class="w-full h-full bg-[#030d07] rounded-[10px] flex items-center justify-center font-display font-extrabold text-white text-base group-hover:text-[#00ff87]">
+            SZ
+          </div>
+        </div>
+        <div>
+          <span class="font-display font-bold text-white text-base tracking-wide flex items-center gap-2">
+            SARVAR
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono">19 yosh</span>
+          </span>
+          <span class="text-[11px] text-emerald-300/80 block font-mono -mt-1">Video Editor & Software Eng</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-1">
+        <a href="#home" class="nav-link">Asosiy</a>
+        <a href="#services" class="nav-link text-emerald-400 font-semibold">Xizmatlar</a>
+        <a href="#about" class="nav-link">Men Haqimda</a>
+        <a href="#skills" class="nav-link">Ko'nikmalar</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#sports-hobbies" class="nav-link">Sport & Xobbi</a>
+        <a href="#contact" class="nav-link">Aloqa</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-3">
+        <!-- Audio Synthesizer Toggle -->
+        <button id="audio-toggle-btn" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-emerald-300 hover:border-emerald-400/50 hover:bg-emerald-500/10 transition-all" title="Ovoz effektlarini yoqish/o'chirish">
+          <i id="audio-icon" data-lucide="volume-2" class="w-4 h-4 text-emerald-400"></i>
+          <span id="audio-label">Ovoz: Yoniq</span>
+        </button>
+
+        <!-- CTA Contact Pill -->
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-400 text-black font-semibold text-xs uppercase tracking-wider hover:bg-white hover:shadow-[0_0_25px_rgba(0,255,135,0.8)] transition-all duration-300">
+          <span>Bog'lanish</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-white/5 text-emerald-400 border border-white/10 hover:bg-white/10" aria-label="Open mobile menu">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer">
+    <a href="#home" class="mobile-nav-link">Asosiy</a>
+    <a href="#services" class="mobile-nav-link text-emerald-400">Xizmatlar & Natijalar</a>
+    <a href="#about" class="mobile-nav-link">Men Haqimda</a>
+    <a href="#skills" class="mobile-nav-link">Ko'nikmalar</a>
+    <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+    <a href="#sports-hobbies" class="mobile-nav-link">Sport & Xobbi</a>
+    <a href="#contact" class="mobile-nav-link">Aloqa</a>
+    <div class="pt-6">
+      <a href="#contact" class="btn-emerald-primary text-sm px-6 py-3">Bog'lanish</a>
+    </div>
+  </div>
+
+  <main class="relative z-10">
+
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section id="home" class="min-h-screen pt-28 pb-16 flex items-center relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Hero Text Column -->
+          <div class="lg:col-span-7 space-y-6 text-left">
+            
+            <!-- Dynamic Badges -->
+            <div class="inline-flex flex-wrap items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-medium backdrop-blur-md glow-badge-flow">
+              <span class="pulse-indicator"></span>
+              <span class="font-bold text-white">Buyurtmalar Qabul Qilinmoqda</span>
+              <span class="text-white/30">•</span>
+              <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-emerald-300 hover:text-white underline decoration-emerald-500/50 flex items-center gap-1 font-semibold">
+                <span>Bugun Agency Montajori</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3 text-emerald-400"></i>
+              </a>
+              <span class="text-white/30">•</span>
+              <span class="text-gray-300">QDTU 3-kurs (Qarshi)</span>
+            </div>
+
+            <!-- Big Impact Title -->
+            <div class="space-y-1">
+              <p class="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-emerald-400 font-bold">Kreativ Video Montaj & Texnologiya</p>
+              <h1 class="text-4xl sm:text-6xl xl:text-7xl font-extrabold font-display leading-[1.08] tracking-tight text-white hero-name-flow">
+                <span class="first-name">SARVAR</span> <br>
+                <span class="surname-glow text-gradient-emerald">ZIYODULLAYEV</span>
+              </h1>
+            </div>
+
+            <!-- Dynamic Animated Role Switcher -->
+            <div class="h-10 sm:h-12 flex items-center text-lg sm:text-2xl font-bold font-mono text-emerald-300">
+              <span class="text-white/70 mr-2">Kasb:</span>
+              <span id="typewriter-text" class="text-white drop-shadow-[0_0_12px_rgba(0,255,135,0.6)]"></span>
+              <span class="typewriter-cursor h-6 sm:h-8"></span>
+            </div>
+
+            <!-- Hook Description focused on Client Revenue & Visual Impact -->
+            <div class="space-y-2 max-w-2xl text-slate-200 text-sm sm:text-base md:text-lg leading-relaxed">
+              <p class="font-medium text-white">
+                Brendingizni rivojlantirib, savdoingizni oshirishga xizmat qiluvchi ijodiy va strategik yechimlar.
+              </p>
+              <p class="text-xs sm:text-sm font-mono text-emerald-300 font-semibold tracking-wide">
+                4K video montaj · iPhone 16 Pro Max’da mobilografiya · Motion dizayn · Meta Ads targetologiyasi
+              </p>
+              <p class="text-slate-300 text-xs sm:text-sm md:text-base font-light">
+                G‘oyadan tortib, auditoriyani jalb qiladigan va mijoz olib kelishga yo‘naltirilgan yakuniy natijagacha — har bir bosqichda siz bilan birga.
+              </p>
+            </div>
+
+            <!-- High-Converting CTA Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <a href="#contact" class="btn-emerald-primary">
+                <span>🚀 Loyiha Boshlash (Buyurtma)</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </a>
+
+              <a href="https://t.me/Sarvarbek_zs" target="_blank" rel="noopener noreferrer" class="btn-white-outline">
+                <i data-lucide="send" class="w-4 h-4 text-emerald-400"></i>
+                <span>Telegram: @Sarvarbek_zs</span>
+              </a>
+
+              <a href="tel:+998956120715" class="px-4 py-3 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-200 hover:text-emerald-300 hover:border-emerald-400/40 transition-all flex items-center gap-2">
+                <i data-lucide="phone-call" class="w-4 h-4 text-emerald-400"></i>
+                <span class="font-bold">+998 (95) 612-07-15</span>
+              </a>
+            </div>
+
+            <!-- Client Decision Drivers Stats Bar -->
+            <div class="pt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 border-t border-white/10">
+              <div class="stat-card-elevated card-glow-swim">
+                <div class="font-display font-extrabold text-2xl sm:text-3xl text-emerald-400">2+ Yil</div>
+                <div class="text-xs text-white font-semibold mt-0.5">Media & Montaj</div>
+                <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-[10px] text-gray-400 hover:text-emerald-300 font-mono block underline">Bugun Agency tajribasi</a>
+              </div>
+
+              <div class="stat-card-elevated card-glow-swim">
+                <div class="font-display font-extrabold text-2xl sm:text-3xl text-white">3+ Faol</div>
+                <div class="text-xs text-white font-semibold mt-0.5">Yirik Loyihalar</div>
+                <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="text-[10px] text-emerald-300 hover:text-white font-mono block underline">@bravos_qarshi va b.</a>
+              </div>
+
+              <div class="stat-card-elevated card-glow-swim">
+                <div class="font-display font-extrabold text-2xl sm:text-3xl text-emerald-300">4K 60fps</div>
+                <div class="text-xs text-white font-semibold mt-0.5">Flagman Setup</div>
+                <div class="text-[10px] text-gray-400 font-mono">HP Victus + iPhone 16</div>
+              </div>
+
+              <div class="stat-card-elevated card-glow-swim">
+                <div class="font-display font-extrabold text-2xl sm:text-3xl text-white">24-48s</div>
+                <div class="text-xs text-white font-semibold mt-0.5">Tezkor Yetkazish</div>
+                <div class="text-[10px] text-emerald-400 font-mono">100% Sifat kafolati</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero 3D Interactive Visualizer Column -->
+          <div class="lg:col-span-5 relative flex items-center justify-center">
+            
+            <!-- Three.js Container -->
+            <div class="relative w-full max-w-[480px]">
+              
+              <!-- Subtle Holographic Backdrop Frame -->
+              <div class="absolute inset-0 rounded-full border border-emerald-500/20 bg-emerald-500/5 filter blur-sm scale-95 pointer-events-none"></div>
+
+              <!-- 3D Canvas Container -->
+              <div id="hero-3d-container" class="cursor-grab active:cursor-grabbing"></div>
+
+              <!-- Floating Interactive Badges around 3D Gem -->
+              <div class="absolute -top-4 -left-2 sm:left-2 p-3 rounded-2xl glass-panel text-xs border border-emerald-400/40 shadow-xl flex items-center gap-2.5 backdrop-blur-xl animate-bounce" style="animation-duration: 4s;">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-300">
+                  <i data-lucide="film" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-white">4K 60FPS Montaj</div>
+                  <div class="text-[10px] text-emerald-400 font-mono">Premiere Pro • VFX</div>
+                </div>
+              </div>
+
+              <div class="absolute -bottom-4 right-0 sm:right-2 p-3 rounded-2xl glass-panel text-xs border border-emerald-400/40 shadow-xl flex items-center gap-2.5 backdrop-blur-xl animate-bounce" style="animation-duration: 5s;">
+                <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white">
+                  <i data-lucide="code" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-white">Python & Dasturiy Tizim</div>
+                  <div class="text-[10px] text-gray-300 font-mono">Telegram Bot • Backend</div>
+                </div>
+              </div>
+
+              <!-- Hint -->
+              <div class="text-center mt-2">
+                <span class="text-[11px] font-mono text-gray-400/80 bg-black/40 px-3 py-1 rounded-full border border-white/5">
+                  ✦ Sichqoncha orqali 3D kristallni aylantiring
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SERVICES & CLIENT RESULTS (MIJOZLAR UCHUN ASOSIY XIZMATLAR)
+         ========================================================================== -->
+    <section id="services" class="py-20 relative bg-gradient-to-b from-transparent via-[#031109]/40 to-transparent">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+            <span>Mijozlar Uchun Real Natija & Daromad</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            BIZNES VA BRENDLARGA <span class="text-gradient-emerald">XIZMATLAR</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+            Har bir xizmat mijoz olib kelish, konversiyani oshirish va brendingizni bozorda yaqqol ajratib ko'rsatish uchun aniq algoritmlar asosida bajariladi.
+          </p>
+        </div>
+
+        <!-- 4 High-Converting Service Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Card 1: 4K Video Montaj -->
+          <div class="conversion-service-card flex flex-col justify-between group card-glow-swim">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-5 group-hover:scale-110 transition-transform">
+                <i data-lucide="clapperboard" class="w-6 h-6"></i>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider uppercase block mb-1">01 • <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="hover:text-white underline">Bugun Agency</a></span>
+              <h3 class="text-xl font-bold font-display text-white mb-2">Tijoriy Video Montaj</h3>
+              <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                HP Victus laptopi va qo'shimcha tashqi monitor yordamida Premiere Pro va DaVinci'da og'ir 4K montaj, Sound Design va kinematik Color Grading.
+              </p>
+              <div class="space-y-1.5 border-t border-white/10 pt-3 text-[11px] font-mono text-gray-300">
+                <div class="flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span><a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="hover:text-white underline font-bold text-emerald-300">@bravos_qarshi</a> loyihasi montaji</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span>Dinamik ritm va toza sound</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-5 mt-4 border-t border-white/5">
+              <a href="#contact" class="text-xs font-bold text-emerald-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                <span>Montaj buyurtma berish</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Mobil Videografiya -->
+          <div class="conversion-service-card flex flex-col justify-between group card-glow-swim">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform">
+                <i data-lucide="smartphone" class="w-6 h-6 text-emerald-400"></i>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider uppercase block mb-1">02 • Flagman Kamera</span>
+              <h3 class="text-xl font-bold font-display text-white mb-2">Mobil Videografiya</h3>
+              <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                iPhone 16 Pro Max orqali yuqori sifatli 4K 60FPS reels, vizual ssenariylar, dinamik rakurslar va Instagram trendlariga 100% mos formatlar.
+              </p>
+              <div class="space-y-1.5 border-t border-white/10 pt-3 text-[11px] font-mono text-gray-300">
+                <div class="flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span><a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="hover:text-white underline font-bold text-emerald-300">@rezonans_academy</a> & <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="hover:text-white underline font-bold text-emerald-300">@rezonans_english_school</a></span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span>Kreativ reels va brend roliklar</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-5 mt-4 border-t border-white/5">
+              <a href="#contact" class="text-xs font-bold text-emerald-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                <span>Reels rejalashtirish</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3: Motion Design & Subtitrlar -->
+          <div class="conversion-service-card flex flex-col justify-between group card-glow-swim">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-5 group-hover:scale-110 transition-transform">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider uppercase block mb-1">03 • Trend Vizual</span>
+              <h3 class="text-xl font-bold font-display text-white mb-2">Motion Dizayn</h3>
+              <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                Kinetik tipografiya, dinamik harakatli subtitrlar, 3D vizual elementlar va tomoshabin diqqatini birinchi 3 soniyada ilintirib oluvchi vizual ilgaklar.
+              </p>
+              <div class="space-y-1.5 border-t border-white/10 pt-3 text-[11px] font-mono text-gray-300">
+                <div class="flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span>Ovozsiz ko'ruvchilar uchun subtitr</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span>VFX va kinetik animatsiyalar</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-5 mt-4 border-t border-white/5">
+              <a href="#contact" class="text-xs font-bold text-emerald-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                <span>Motion qo'shish</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 4: Meta Targetologiya -->
+          <div class="conversion-service-card flex flex-col justify-between group card-glow-swim">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-5 group-hover:scale-110 transition-transform">
+                <i data-lucide="target" class="w-6 h-6 text-emerald-400"></i>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold tracking-wider uppercase block mb-1">04 • Savdo & Natija</span>
+              <h3 class="text-xl font-bold font-display text-white mb-2">Meta Ads Target</h3>
+              <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                Meta Ads Manager (Instagram/FB) orqali maqsadli auditoriyani aniq nishonga olish, arzon lidlar (CPL) va biznesga to'g'ridan-to'g'ri buyurtma keltirish.
+              </p>
+              <div class="space-y-1.5 border-t border-white/10 pt-3 text-[11px] font-mono text-gray-300">
+                <div class="flex items-center gap-1.5 text-emerald-300">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span><a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="hover:text-white underline font-bold text-emerald-300">Rezonans</a> loyihalarida sinovdan o'tgan</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-400">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+                  <span>Yuqori ROAS va savdo voronkasi</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-5 mt-4 border-t border-white/5">
+              <a href="#contact" class="text-xs font-bold text-emerald-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                <span>Target kampaniya boshlash</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Trust & Guarantee Banner -->
+        <div class="mt-10 p-6 rounded-3xl glass-panel border border-emerald-500/30 flex flex-wrap items-center justify-between gap-4 card-glow-swim">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">100% Sifat va Muddat Kafolati</h4>
+              <p class="text-xs text-gray-400">HP Victus + Monitor montaj kuchi, iPhone 16 Pro Max sifati va AI vositalari orqali tezkor topshirish.</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <a href="https://t.me/Sarvarbek_zs" target="_blank" rel="noopener noreferrer" class="btn-emerald-primary text-xs py-2.5 px-5">
+              <span>Telegram'da Gaplashish</span>
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </a>
+            <a href="tel:+998956120715" class="btn-white-outline text-xs py-2.5 px-5">
+              <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>+998 (95) 612-07-15</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ABOUT ME (MEN HAQIMDA) - 3D INTERACTIVE DOSSIER
+         ========================================================================== -->
+    <section id="about" class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+            <span>Dossier & Shaxsiy Tarix</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            MEN HAQIMDA <span class="text-gradient-emerald">MA'LUMOT</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-400 text-sm sm:text-base">
+            Qashqadaryoning tog'li va fusunkor Kitob tumanidan boshlangan qiziqish, bugungi kunda zamonaviy media sanoati va dasturiy muhandislik cho'qqilariga qarab intilmoqda.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Left Column: 3D Tilt Profile Card -->
+          <div class="lg:col-span-5">
+            <div class="card-tilt glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden border border-emerald-500/30 card-glow-swim">
+              <div class="card-glare"></div>
+
+              <!-- Profile Avatar Representation with 3D Aesthetics -->
+              <div class="relative w-full aspect-square rounded-2xl bg-gradient-to-br from-emerald-950 via-[#071910] to-[#010b06] border border-emerald-400/30 overflow-hidden flex flex-col items-center justify-center p-6 text-center group">
+                
+                <!-- Glowing Aura -->
+                <div class="absolute inset-0 bg-radial-gradient from-emerald-500/20 to-transparent opacity-60 group-hover:opacity-100 transition-opacity"></div>
+
+                <!-- Geometric Monogram Shield -->
+                <div class="w-32 h-32 rounded-3xl bg-gradient-to-tr from-emerald-500/20 to-white/10 border-2 border-emerald-400/50 flex items-center justify-center relative shadow-[0_0_40px_rgba(0,255,135,0.3)] mb-4 transition-transform duration-500 group-hover:rotate-3 group-hover:scale-105">
+                  <div class="font-display font-black text-5xl text-white">
+                    SZ
+                  </div>
+                  <div class="absolute -bottom-2 -right-2 bg-emerald-400 text-black p-1.5 rounded-xl shadow-lg">
+                    <i data-lucide="video" class="w-5 h-5"></i>
+                  </div>
+                </div>
+
+                <h3 class="text-2xl font-bold font-display text-white">Sarvar Ziyodullayev</h3>
+                <p class="text-emerald-400 font-mono text-xs mt-1">19 yosh • QDTU 3-kurs Talabasi (Qarshi)</p>
+
+                <div class="flex flex-wrap justify-center gap-1.5 mt-4">
+                  <span class="text-[11px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-gray-200">Video Editor</span>
+                  <span class="text-[11px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-gray-200">Mobilograf</span>
+                  <span class="text-[11px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-gray-200">Python Dev</span>
+                  <span class="text-[11px] bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-1 rounded-full text-emerald-300">Targetolog</span>
+                  <span class="text-[11px] bg-emerald-500/25 border border-emerald-400/50 px-2.5 py-1 rounded-full text-white font-medium flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3 text-emerald-400"></i> AI Tools Pro</span>
+                </div>
+              </div>
+
+              <!-- Quick Info List -->
+              <div class="mt-6 space-y-3 font-mono text-xs">
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">Yoshi:</span>
+                  <span class="text-white font-bold">19 yosh</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">Kasbi:</span>
+                  <span class="text-emerald-300 font-bold">Video montajor & Dasturchi</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">Ish joyi:</span>
+                  <span class="text-white font-bold text-right"><a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">Bugun Agency</a> (Montajor)</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">O'qish joyi:</span>
+                  <span class="text-white text-right">QDTU (3-kurs, Dasturiy Injenering)</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">Asosiy faoliyat:</span>
+                  <span class="text-emerald-300 font-bold">Qarshi shahri</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                  <span class="text-gray-400">Faoliyat holati:</span>
+                  <span class="text-emerald-300 font-bold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Hozirda faol ishlamoqda</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-gray-400">Tug'ilgan maskan:</span>
+                  <span class="text-white">Kitob tumani (1-maktab)</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Dossier Tabs -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <!-- Tab Controls -->
+            <div class="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
+              <button class="about-tab-btn active-about-tab flex items-center gap-2" data-tab="tab-bio">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Biografiya</span>
+              </button>
+              <button class="about-tab-btn flex items-center gap-2" data-tab="tab-education">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                <span>Ta'lim Yo'li (QDTU & Maktab)</span>
+              </button>
+              <button class="about-tab-btn flex items-center gap-2" data-tab="tab-location">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                <span>Manzil & Joylashuv</span>
+              </button>
+            </div>
+
+            <!-- Tab 1: Biografiya -->
+            <div id="tab-bio" class="about-tab-content active-pane glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/20 space-y-5">
+              <h3 class="text-2xl font-bold font-display text-white flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-mono">01</span>
+                Kreativlik va Muhandislikning Chatishtirilishi
+              </h3>
+              <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                Mening ismim <strong class="text-white">Sarvar Ziyodullayev</strong>, 19 yoshdaman. Qashqadaryo viloyati Kitob tumanida tug'ilganman. Hozirda <strong class="text-emerald-400">Qarshi Davlat Texnika Universiteti (QDTU)</strong>ning 3-kurs talabasiman (Dasturiy Injenering yo'nalishi) va asosiy ijodiy hamda dasturiy faoliyatimni <strong class="text-white">Qarshi shahrida</strong> olib bormoqdaman.
+              </p>
+              <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                Media sohasidagi 2 yillik tajribam davomida loyihalar bilan faol ishlab kelmoqdaman:
+              </p>
+              
+              <!-- Active Projects Breakdown -->
+              <div class="space-y-3 pt-1">
+                <div class="p-3.5 rounded-xl bg-black/40 border border-emerald-500/30 flex items-start gap-3">
+                  <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 mt-0.5">
+                    <i data-lucide="video" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <strong class="text-white text-sm">Bugun Agency (<a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline">@bugun_agency</a>)</strong>
+                      <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono">Video Montajor • Faol</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mt-1">
+                      Agentlikda Video Montajor sifatida ishlayman hamda <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="text-emerald-300 font-bold hover:underline">@bravos_qarshi</a> va shunga o'xshash agentlik mijozlari loyihalarining video montajini amalga oshiraman.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-black/40 border border-emerald-500/30 flex items-start gap-3">
+                  <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 mt-0.5">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <strong class="text-white text-sm">Mustaqil Loyihalarim (<a href="https://instagram.com/rezonans_academy" target="_blank" class="text-emerald-400 hover:underline">@rezonans_academy</a>, <a href="https://instagram.com/rezonans_english_school" target="_blank" class="text-emerald-400 hover:underline">@rezonans_english_school</a>)</strong>
+                      <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono">Mobil Videograf + Targetolog • Faol</span>
+                    </div>
+                    <p class="text-xs text-gray-300 mt-1">
+                      Alohida 2 ta mustaqil loyihalarim bo'lib, ularda to'g'ridan-to'g'ri Mobil Videograf va Targetolog sifatida iPhone 16 Pro Max orqali kreativ Reels hamda Meta Ads target xizmatlarini yuritaman.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+                <div class="p-4 rounded-xl bg-black/40 border border-emerald-500/20">
+                  <div class="text-emerald-400 font-bold mb-1 flex items-center gap-2">
+                    <i data-lucide="laptop" class="w-4 h-4"></i> Ish Qurollari & Setup
+                  </div>
+                  <p class="text-xs text-gray-300">HP Victus laptopi + qo'shimcha Monitor (dual-display) hamda iPhone 16 Pro Max orqali professional 4K montaj va mobilografiya.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-black/40 border border-emerald-500/20">
+                  <div class="text-emerald-400 font-bold mb-1 flex items-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> IT & Avtomatlashtirish
+                  </div>
+                  <p class="text-xs text-gray-300">QDTU 3-kurs bilimlari: Python botlar, skriptlar va marketing tizimlari.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Ta'lim Yo'li -->
+            <div id="tab-education" class="about-tab-content glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/20 space-y-6">
+              <h3 class="text-2xl font-bold font-display text-white flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-mono">02</span>
+                Akademik va Amaliy Ta'lim
+              </h3>
+
+              <!-- Timeline Item 1: QDTU -->
+              <div class="relative pl-8 border-l-2 border-emerald-500/40 space-y-2">
+                <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#00ff87] shadow-[0_0_12px_#00ff87]"></div>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h4 class="text-lg font-bold text-white">Qarshi Davlat Texnika Universiteti (QDTU)</h4>
+                  <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-mono">3-kurs Talabasi (Hozirgi Bosqich)</span>
+                </div>
+                <p class="text-emerald-400 font-medium text-sm">Yo'nalish: Dasturiy Injenering (Software Engineering) • Qarshi shahri</p>
+                <p class="text-gray-300 text-xs sm:text-sm">
+                  Dasturiy tizimlar arxitekturasi, algoritmlar nazariyasi, ob'ektga yo'naltirilgan dasturlash (OOP), Python, ma'lumotlar tuzilmasi va zamonaviy web/cloud texnologiyalari.
+                </p>
+              </div>
+
+              <!-- Timeline Item 2: 1-maktab -->
+              <div class="relative pl-8 border-l-2 border-white/20 space-y-2 pt-4">
+                <div class="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-white shadow-[0_0_10px_#ffffff]"></div>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h4 class="text-lg font-bold text-white">Kitob Tumani 1-Maktab</h4>
+                  <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-gray-300 text-xs font-mono">Tug'ilgan Maskan & Boshlang'ich Poydevor</span>
+                </div>
+                <p class="text-gray-300 font-medium text-sm">Aniq fanlar, matematika va chet tillari</p>
+                <p class="text-gray-400 text-xs sm:text-sm">
+                  1-maktabda olgan mustahkam bilimlar, jismoniy sport to'garaklari va ingliz tili asoslari kelgusi intellektual va ijodiy o'sishimning mustahkam poydevori bo'ldi.
+                </p>
+              </div>
+            </div>
+
+            <!-- Tab 3: Manzil & Joylashuv -->
+            <div id="tab-location" class="about-tab-content glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/20 space-y-6">
+              <h3 class="text-2xl font-bold font-display text-white flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-mono">03</span>
+                Joylashuv & Geografik Lokatsiya
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <!-- Radar Circle Graphic -->
+                <div class="md:col-span-5 flex flex-col items-center justify-center">
+                  <div class="radar-circle">
+                    <div class="radar-sweep"></div>
+                    <div class="w-4 h-4 rounded-full bg-[#00ff87] shadow-[0_0_20px_#00ff87] z-10 flex items-center justify-center">
+                      <div class="w-1.5 h-1.5 rounded-full bg-black"></div>
+                    </div>
+                  </div>
+                  <span class="text-xs font-mono text-emerald-400 mt-3 text-center">Lokatsiya: Qarshi shahri (Faoliyat markazi)</span>
+                </div>
+
+                <!-- Address Details -->
+                <div class="md:col-span-7 space-y-3">
+                  <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30">
+                    <span class="text-xs text-emerald-400 block font-mono">🏢 Hozirgi asosiy faoliyat manzili:</span>
+                    <span class="text-white font-bold text-base">Qashqadaryo viloyati, Qarshi shahri</span>
+                    <span class="text-xs text-gray-400 block mt-0.5 font-mono">QDTU 3-kurs talabasi • Media & Dasturiy Loyihalar</span>
+                  </div>
+
+                  <div class="p-3.5 rounded-xl bg-black/40 border border-white/10">
+                    <span class="text-xs text-gray-400 block font-mono">🏡 Tug'ilgan maskan:</span>
+                    <span class="text-white font-bold text-base">Kitob tumani, Beruniy ko'cha 24-uy</span>
+                    <span class="text-xs text-gray-400 block mt-0.5 font-mono">1-maktab bitiruvchisi</span>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <button class="copy-trigger w-full btn-emerald-primary text-xs py-2.5" data-copy="Qashqadaryo viloyati, Qarshi shahri" data-copy-label="Qarshi manzili">
+                      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                      <span>Qarshi manzilini nusxalash</span>
+                    </button>
+                    <button class="copy-trigger w-full btn-white-outline text-xs py-2.5" data-copy="Qashqadaryo viloyati, Kitob tumani, Beruniy ko'cha 24-uy" data-copy-label="Kitob manzili">
+                      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                      <span>Kitob manzilini nusxalash</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SKILLS & INTERACTIVE PYTHON TERMINAL
+         ========================================================================== -->
+    <section id="skills" class="py-24 relative bg-black/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+            <span>Professional Ko'nikmalar & Dastur</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            SKILLS & <span class="text-gradient-emerald">TEXNIK SALOHIYAT</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-400 text-sm sm:text-base">
+            Video montaj, vizual media va dasturiy injeneringning integratsiyalashgan qurollari.
+          </p>
+        </div>
+
+        <!-- 2 Pillars Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          
+          <!-- Pillar 1: Media & Kreativ -->
+          <div class="card-tilt glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/30 space-y-6">
+            <div class="card-glare"></div>
+            
+            <div class="flex items-center gap-4 pb-4 border-b border-white/10">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/40">
+                <i data-lucide="clapperboard" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold font-display text-white">Media & Kreativ Yo'nalish</h3>
+                <p class="text-xs text-gray-400 font-mono">Video Montaj, Mobil Videografiya, Motion Design, SMM & Target</p>
+              </div>
+            </div>
+
+            <!-- Skill Items -->
+            <div class="space-y-4">
+              
+              <!-- Video Montaj -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="film" class="w-3.5 h-3.5 text-emerald-400"></i> Video Montaj (HP Victus + Monitor • Telefon)
+                  </span>
+                  <span class="text-emerald-400 font-bold">96%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-emerald-500 to-white h-full rounded-full" style="width: 96%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Ko'pincha HP Victus laptopi va qo'shimcha tashqi Monitor orqali Premiere Pro / DaVinci Resolve dasturlarida og'ir 4K montaj, Sound Design, Color Grading va telefon orqali tezkor tahrirlar.</p>
+              </div>
+
+              <!-- Mobil Videografiya -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i> Mobil Videografiya (iPhone 16 Pro Max)
+                  </span>
+                  <span class="text-emerald-400 font-bold">96%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-emerald-500 to-white h-full rounded-full" style="width: 96%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">iPhone 16 Pro Max orqali kreativ va brendga mos reels tayyorlash, 4K/60fps kinematik tasvirlar, yorqin kompozitsiya va savdoni oshiruvchi vizual uslub.</p>
+              </div>
+
+              <!-- Motion Design & Animatsiya -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> Motion Design & Animatsiya
+                  </span>
+                  <span class="text-emerald-400 font-bold">92%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-emerald-500 to-white h-full rounded-full" style="width: 92%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Harakatli grafikalar, kinetik tipografiya, dinamik subtitrlar, vizual VFX effektlar va trend motion animatsiyalar.</p>
+              </div>
+
+              <!-- SMM & Targetolog -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="target" class="w-3.5 h-3.5 text-emerald-400"></i> SMM & Meta Targetologiya (Instagram/FB)
+                  </span>
+                  <span class="text-emerald-400 font-bold">88%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-emerald-500 to-white h-full rounded-full" style="width: 88%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Meta Ads Manager, maqsadli auditoriya tahlili, konversiya va yuqori ROAS ko'rsatkichi.</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Pillar 2: Dasturlash & Muhandislik -->
+          <div class="card-tilt glass-panel p-6 sm:p-8 rounded-3xl border border-white/20 space-y-6">
+            <div class="card-glare"></div>
+
+            <div class="flex items-center gap-4 pb-4 border-b border-white/10">
+              <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-white border border-white/20">
+                <i data-lucide="terminal" class="w-6 h-6 text-emerald-400"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold font-display text-white">Dasturlash & Muhandislik</h3>
+                <p class="text-xs text-gray-400 font-mono">QDTU Dasturiy Injenering • Python Developer</p>
+              </div>
+            </div>
+
+            <!-- Skill Items -->
+            <div class="space-y-4">
+              
+              <!-- Python Developer -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="code-2" class="w-3.5 h-3.5 text-emerald-400"></i> Python (Botlar, Automation, Scraping)
+                  </span>
+                  <span class="text-emerald-400 font-bold">90%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-white to-emerald-400 h-full rounded-full" style="width: 90%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Telegram Bot API (aiogram), avtomatlashtirish skriptlari, parser va tahlil tizimlari.</p>
+              </div>
+
+              <!-- Dasturiy Injenering -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-400"></i> Dasturiy Injenering Asoslari (QDTU)
+                  </span>
+                  <span class="text-emerald-400 font-bold">88%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-white to-emerald-400 h-full rounded-full" style="width: 88%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Ob'ektga yo'naltirilgan dasturlash (OOP), algoritmlar, arxitektura va testlash tamoyillari.</p>
+              </div>
+
+              <!-- Ma'lumotlar bazasi -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="database" class="w-3.5 h-3.5 text-emerald-400"></i> Ma'lumotlar Bazasi & SQL
+                  </span>
+                  <span class="text-emerald-400 font-bold">82%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-white to-emerald-400 h-full rounded-full" style="width: 82%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">SQLite, PostgreSQL, ma'lumotlarni saqlash va tuzilmali so'rovlar bilan ishlash.</p>
+              </div>
+
+              <!-- Git & Versiya boshqaruvi -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                  <span class="text-white font-bold flex items-center gap-2">
+                    <i data-lucide="git-branch" class="w-3.5 h-3.5 text-emerald-400"></i> Git & GitHub / Teamwork
+                  </span>
+                  <span class="text-emerald-400 font-bold">85%</span>
+                </div>
+                <div class="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-white/10">
+                  <div class="bg-gradient-to-r from-white to-emerald-400 h-full rounded-full" style="width: 85%"></div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Loyiha kodlari boshqaruvi, tarmoqlanish (branches), CI/CD va avtomatlashtirish.</p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Pillar 3: Sun'iy Intellekt Vositalari (AI Tools & Workflow) -->
+        <div class="card-tilt glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/40 relative overflow-hidden mb-16 shadow-[0_0_50px_rgba(0,255,135,0.08)]">
+          <div class="card-glare"></div>
+          
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500/30 to-white/10 flex items-center justify-center text-emerald-400 border border-emerald-400/40 shadow-[0_0_20px_rgba(0,255,135,0.3)]">
+                <i data-lucide="sparkles" class="w-7 h-7"></i>
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 class="text-xl sm:text-2xl font-bold font-display text-white">Sun'iy Intellekt Vositalari (AI Tools)</h3>
+                  <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-mono font-bold">+1 Professional Ko'nikma</span>
+                </div>
+                <p class="text-xs sm:text-sm text-gray-300 font-mono mt-1">Loyihalarda professional darajada amaliy foydalanish va avtomatlashtirish</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+                <span>Tezkorlik & Yuqori Sifat</span>
+              </span>
+            </div>
+          </div>
+
+          <p class="text-gray-300 text-sm leading-relaxed mt-5">
+            Sun'iy intellekt vositalaridan barcha media va dasturlash loyihalarimda <strong class="text-white">professional darajada</strong> foydalanaman. Video ssenariylari, dinamik montaj g'oyalari, auditoriya psixologiyasi tahlili, toza kod yozish va murakkab muhandislik jarayonlarini avtomatlashtirishda jahonning eng mashhur AI tizimlaridan unumli foydalanib, natija sifatini bir necha barobar oshiraman:
+          </p>
+
+          <!-- 5 Featured AI Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
+            
+            <!-- AI 1: ChatGPT -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🤖</span>
+                  <span class="text-white font-bold text-sm">ChatGPT</span>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 font-bold">98%</span>
+              </div>
+              <span class="text-[10px] text-gray-400 font-mono block">OpenAI GPT-4o</span>
+              <p class="text-[11px] text-gray-300 leading-snug">
+                Kreativ video ssenariylari, storytelling, reklama kopiraytingi va mijozlar bilan muloqot botlari.
+              </p>
+            </div>
+
+            <!-- AI 2: Google Gemini -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">✨</span>
+                  <span class="text-white font-bold text-sm">Gemini</span>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 font-bold">96%</span>
+              </div>
+              <span class="text-[10px] text-gray-400 font-mono block">Google DeepMind</span>
+              <p class="text-[11px] text-gray-300 leading-snug">
+                Multimodal tahlil, katta hajmdagi ma'lumotlar bilan ishlash, vizual tadqiqotlar va trendlar tahlili.
+              </p>
+            </div>
+
+            <!-- AI 3: Claude -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🧠</span>
+                  <span class="text-white font-bold text-sm">Claude</span>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 font-bold">95%</span>
+              </div>
+              <span class="text-[10px] text-gray-400 font-mono block">Anthropic 3.5 Sonnet</span>
+              <p class="text-[11px] text-gray-300 leading-snug">
+                Murakkab dasturiy kod tahlili, tizim arxitekturasi va mantiqiy chuqur konseptual matnlar.
+              </p>
+            </div>
+
+            <!-- AI 4: Flow AI -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🌊</span>
+                  <span class="text-white font-bold text-sm">Flow AI</span>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 font-bold">93%</span>
+              </div>
+              <span class="text-[10px] text-gray-400 font-mono block">Workflow Automation</span>
+              <p class="text-[11px] text-gray-300 leading-snug">
+                Ish jarayonlarini avtomatlashtirish, agentlik tizimlari va kontent konveyerini boshqarish.
+              </p>
+            </div>
+
+            <!-- AI 5: Antigravity -->
+            <div class="p-4 rounded-2xl bg-black/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">⚡</span>
+                  <span class="text-white font-bold text-sm">Antigravity</span>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 font-bold">96%</span>
+              </div>
+              <span class="text-[10px] text-gray-400 font-mono block">Agentic AI System</span>
+              <p class="text-[11px] text-gray-300 leading-snug">
+                Avtonom agentik dasturlash, to'liq backend tizimlarini loyihalash va interaktiv platformalar yaratish.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ======================================================================
+             INTERACTIVE LIVE PYTHON TERMINAL SIMULATOR
+             ====================================================================== -->
+        <div class="terminal-window max-w-4xl mx-auto card-glow-swim">
+          
+          <!-- Terminal Header -->
+          <div class="terminal-header">
+            <div class="flex items-center gap-2">
+              <span class="terminal-dot bg-rose-500"></span>
+              <span class="terminal-dot bg-amber-500"></span>
+              <span class="terminal-dot bg-emerald-500"></span>
+              <span class="text-xs font-mono text-gray-400 ml-2 hidden sm:inline">sarvar@portfolio: ~/developer_env</span>
+            </div>
+
+            <div class="text-[11px] font-mono text-emerald-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Python 3.13.2 Interactive Shell</span>
+            </div>
+          </div>
+
+          <!-- Quick Command Preset Pills -->
+          <div class="px-4 py-2.5 bg-[#030e07] border-b border-emerald-500/10 flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-mono text-gray-400 mr-1">Tezkor buyruqlar:</span>
+            <button class="term-pill" data-cmd="sarvar.info()">▶ sarvar.info()</button>
+            <button class="term-pill" data-cmd="sarvar.projects()">▶ sarvar.projects()</button>
+            <button class="term-pill" data-cmd="sarvar.ai()">⚡ sarvar.ai()</button>
+            <button class="term-pill" data-cmd="sarvar.hardware()">💻 sarvar.hardware()</button>
+            <button class="term-pill" data-cmd="sarvar.skills()">▶ sarvar.skills()</button>
+            <button class="term-pill" data-cmd="sarvar.education()">▶ sarvar.education()</button>
+            <button class="term-pill" data-cmd="sarvar.render_video()">🎬 sarvar.render_video()</button>
+            <button class="term-pill" data-cmd="sarvar.run_bot()">🤖 sarvar.run_bot()</button>
+            <button class="term-pill" data-cmd="sarvar.contact()">📞 sarvar.contact()</button>
+            <button class="term-pill" data-cmd="clear">⌫ clear</button>
+          </div>
+
+          <!-- Output Screen -->
+          <div id="terminal-output">
+            <div class="term-line text-emerald-400">
+              Python 3.13.2 (main, QDTU Software Engineering build) [MSC v.1942 64 bit] on win32<br>
+              Type "help", "copyright", "credits" or click quick pills above for more information.
+            </div>
+            <div class="term-line text-gray-300 mt-2">
+              <span class="text-emerald-400 font-bold">>>></span> sarvar = Developer(name="Sarvar Ziyodullayev", age=19, role="Video Montajor & Python Dev")
+            </div>
+            <div class="term-line text-emerald-300/80">
+              [SYSTEM] Sarvar obyekt moduli muvaffaqiyatli ishga tushirildi. Buyruq kiritishingiz mumkin.
+            </div>
+          </div>
+
+          <!-- Terminal Input Line -->
+          <form id="terminal-form" class="p-3 bg-[#010904] border-t border-emerald-500/20 flex items-center gap-2">
+            <span class="text-emerald-400 font-bold font-mono text-sm">>>></span>
+            <input type="text" id="terminal-input" class="w-full bg-transparent border-none outline-none text-white font-mono text-sm placeholder-gray-500 focus:ring-0" placeholder="Buyruq yozing (masalan: sarvar.info(), sarvar.render_video() yoki help)" autocomplete="off">
+            <button type="submit" class="px-3 py-1 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-black rounded text-xs font-mono transition-colors">
+              Enter
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PORTFOLIO & INTERACTIVE REELS SHOWCASE
+         ========================================================================== -->
+    <section id="portfolio" class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+            <span>Ijodiy Natijalar</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            PORTFOLIO & <span class="text-gradient-emerald">REELS SHOWCASE</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-400 text-sm sm:text-base">
+            Montaj qilingan dinamik roliklar, mobilografiya loyihalari va dasturiy ishlanmalar to'plami.
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-14">
+          <button class="portfolio-filter-btn active-filter" data-filter="all">Barchasi (All)</button>
+          <button class="portfolio-filter-btn" data-filter="video">Video Montaj</button>
+          <button class="portfolio-filter-btn" data-filter="mobilography">Mobilografiya & SMM</button>
+          <button class="portfolio-filter-btn" data-filter="python">Python & Dasturlash</button>
+        </div>
+
+        <!-- Central Showcase: 3D Smartphone Reels Simulator -->
+        <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-emerald-500/30 mb-16 relative overflow-hidden card-glow-swim">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <!-- Left: Simulated iPhone Mockup -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="reels-phone-mockup">
+                <!-- Notch -->
+                <div class="phone-speaker-notch">
+                  <div class="phone-lens"></div>
+                  <div class="w-10 h-1 bg-white/20 rounded-full"></div>
+                </div>
+
+                <!-- Simulation Canvas -->
+                <canvas id="reel-canvas" width="290" height="520" class="w-full h-full block cursor-pointer"></canvas>
+
+                <!-- Phone Bottom Bar Controls -->
+                <div class="absolute bottom-4 left-4 right-4 z-20 space-y-2">
+                  <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+                    <div id="reel-progress-bar" class="bg-[#00ff87] h-full" style="width: 0%"></div>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs text-white">
+                    <div class="flex items-center gap-2">
+                      <button id="reel-play-btn" class="w-7 h-7 rounded-full bg-emerald-400 text-black flex items-center justify-center hover:scale-105 transition-transform">
+                        <i data-lucide="pause" class="w-4 h-4"></i>
+                      </button>
+                      <span id="reel-status" class="text-[11px] font-mono text-emerald-300">O'ynamoqda</span>
+                    </div>
+                    <span class="text-[10px] bg-black/60 px-2 py-0.5 rounded-full font-mono text-emerald-300 border border-white/10">iPhone 16 Pro Max • 4K</span>
+                  </div>
+                </div>
+
+                <!-- Instagram Reels Like & Share Icons Mockup -->
+                <div class="absolute right-3 bottom-20 z-20 flex flex-col gap-3 items-center text-white">
+                  <div class="flex flex-col items-center">
+                    <i data-lucide="heart" class="w-5 h-5 text-rose-500 fill-rose-500"></i>
+                    <span class="text-[9px] font-bold">12.4k</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">342</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">Ulashish</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Controls & Case Study Info -->
+            <div class="lg:col-span-7 space-y-6">
+              
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-emerald-400 text-xs font-mono">
+                <i data-lucide="play" class="w-3 h-3"></i>
+                <span>Interaktiv Rolik Ko'rish Stansiyasi</span>
+              </div>
+
+              <div>
+                <h3 id="reel-title" class="text-2xl sm:text-4xl font-extrabold font-display text-white">
+                  <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors inline-flex items-center gap-2">
+                    <span>Bravos Qarshi Promo Reel (@bravos_qarshi)</span>
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-emerald-400"></i>
+                  </a>
+                </h3>
+                <p id="reel-cat" class="text-emerald-400 font-mono text-sm mt-1">Video Montaj (Bugun Agency: Video Montajor • Faol)</p>
+              </div>
+
+              <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                Hozirda barcha loyihalar bilan faol ishlab kelmoqdaman: <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">Bugun Agency (@bugun_agency)</a> media agentligida Video Montajor (<a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">@bravos_qarshi</a> va boshqa loyihalar montaji) hamda alohida 2 ta mustaqil shaxsiy loyihalarim: <a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">@rezonans_academy</a> va <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">@rezonans_english_school</a> (Mobil Videograf + Targetolog).
+              </p>
+
+              <!-- Reel Switcher Buttons -->
+              <div class="space-y-2">
+                <span class="text-xs font-mono text-gray-400 block">Haqiqiy loyihalarni ko'rish:</span>
+                <div class="flex flex-wrap gap-2">
+                  <button class="reel-pill active-reel" data-reel="dynamic">🎬 @bravos_qarshi (Bugun Agency)</button>
+                  <button class="reel-pill" data-reel="commercial">🎓 @rezonans_academy (Mustaqil)</button>
+                  <button class="reel-pill" data-reel="cinematic">🇬🇧 @rezonans_english_school (Mustaqil)</button>
+                  <button class="reel-pill" data-reel="python">🐍 Python Bot Tizimi</button>
+                </div>
+              </div>
+
+              <!-- Technical Specs -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div class="p-3 rounded-xl bg-black/40 border border-emerald-500/30">
+                  <div class="text-[11px] text-gray-400 font-mono">Asosiy Noutbuk:</div>
+                  <div class="text-white font-bold text-sm">HP Victus</div>
+                </div>
+                <div class="p-3 rounded-xl bg-black/40 border border-emerald-500/30">
+                  <div class="text-[11px] text-gray-400 font-mono">Displey / Ekran:</div>
+                  <div class="text-emerald-300 font-bold text-sm">+ Tashqi Monitor</div>
+                </div>
+                <div class="p-3 rounded-xl bg-black/40 border border-white/10">
+                  <div class="text-[11px] text-gray-400 font-mono">Mobil Uskuna:</div>
+                  <div class="text-white font-bold text-sm">iPhone 16 Pro Max</div>
+                </div>
+                <div class="p-3 rounded-xl bg-black/40 border border-white/10">
+                  <div class="text-[11px] text-gray-400 font-mono">Format & Sifat:</div>
+                  <div class="text-emerald-300 font-bold text-sm">4K 60FPS (HDR)</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 6 Portfolio Grid Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Project 1: Bravos Qarshi (Bugun Agency - Video Montajor) -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 card-glow-swim" data-category="video">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-emerald-950 to-[#032a18] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="clapperboard" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Hozirda faol</span>
+              </div>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-emerald-300 border border-white/10 flex items-center gap-1">
+                <span>Agentlik:</span>
+                <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-white hover:text-emerald-300 underline font-bold flex items-center gap-0.5">
+                  <span>@bugun_agency</span>
+                  <i data-lucide="arrow-up-right" class="w-3 h-3 text-emerald-400"></i>
+                </a>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Bugun Agency • Video Montajor</span>
+                <div class="flex items-center gap-2">
+                  <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="text-emerald-300 hover:text-white text-xs flex items-center gap-1 font-mono font-bold bg-white/5 px-2.5 py-1 rounded-full border border-white/10 hover:border-emerald-400/40 transition-colors">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-rose-400"></i>
+                    <span>@bravos_qarshi</span> <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
+              </div>
+              <h4 class="text-xl font-bold font-display text-white">
+                <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors inline-flex items-center gap-1 group/link">
+                  <span>Bravos Qarshi</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"></i>
+                </a>
+                <span class="text-gray-400 text-sm font-normal">&</span>
+                <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors inline-flex items-center gap-1 group/link">
+                  <span>Bugun Agency</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"></i>
+                </a>
+              </h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                <a href="https://instagram.com/bugun_agency" target="_blank" rel="noopener noreferrer" class="text-emerald-300 font-semibold hover:underline">Bugun Agency</a> media agentligida Video Montajor sifatida faoliyat yuritaman. Agentlik doirasida <a href="https://instagram.com/bravos_qarshi" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-bold hover:underline">@bravos_qarshi</a> restorani va boshqa mijozlar loyihalarining professional montaji, 4K Reels, beat-sync sound design va rang korreksiyasi.
+              </p>
+            </div>
+          </div>
+
+          <!-- Project 2: Rezonans Academy (Mustaqil Loyiha: Mobil Videograf + Targetolog) -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 card-glow-swim" data-category="mobilography">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-[#021f12] to-[#044026] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="smartphone" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Hozirda faol</span>
+              </div>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-emerald-300 border border-white/10 flex items-center gap-1">
+                <span>Mustaqil:</span>
+                <a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="text-white hover:text-emerald-300 underline font-bold flex items-center gap-0.5">
+                  <span>@rezonans_academy</span>
+                  <i data-lucide="arrow-up-right" class="w-3 h-3 text-emerald-400"></i>
+                </a>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Mustaqil: Mobil Videograf + Target</span>
+                <a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="text-emerald-300 hover:text-white text-xs flex items-center gap-1 font-mono font-bold bg-white/5 px-2.5 py-1 rounded-full border border-white/10 hover:border-emerald-400/40 transition-colors">
+                  <i data-lucide="instagram" class="w-3.5 h-3.5 text-rose-400"></i>
+                  <span>@rezonans_academy</span> <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+              <h4 class="text-xl font-bold font-display text-white">
+                <a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5 group/link">
+                  <span>Rezonans Academy</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"></i>
+                </a>
+                <span class="text-xs text-emerald-300 font-mono font-normal block sm:inline">(Mustaqil Loyiha)</span>
+              </h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                Alohida mustaqil shaxsiy loyiha: <a href="https://instagram.com/rezonans_academy" target="_blank" rel="noopener noreferrer" class="text-emerald-300 font-semibold hover:underline">@rezonans_academy</a> uchun iPhone 16 Pro Max orqali professional mobil videografiya, kreativ kadrlar va intervyular hamda Meta Ads orqali maqsadli auditoriyaga target qilish.
+              </p>
+            </div>
+          </div>
+
+          <!-- Project 3: Rezonans English School (Mustaqil Loyiha: Mobil Videograf + Targetolog) -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 card-glow-swim" data-category="mobilography">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-[#01140a] to-[#06331e] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="target" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Hozirda faol</span>
+              </div>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-emerald-300 border border-white/10 flex items-center gap-1">
+                <span>Mustaqil:</span>
+                <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="text-white hover:text-emerald-300 underline font-bold flex items-center gap-0.5">
+                  <span>@rezonans_english_school</span>
+                  <i data-lucide="arrow-up-right" class="w-3 h-3 text-emerald-400"></i>
+                </a>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Mustaqil: Mobil Videograf + Target</span>
+                <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="text-emerald-300 hover:text-white text-xs flex items-center gap-1 font-mono font-bold bg-white/5 px-2.5 py-1 rounded-full border border-white/10 hover:border-emerald-400/40 transition-colors">
+                  <i data-lucide="instagram" class="w-3.5 h-3.5 text-rose-400"></i>
+                  <span>@rezonans_english_school</span> <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+              <h4 class="text-xl font-bold font-display text-white">
+                <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5 group/link">
+                  <span>Rezonans English School</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"></i>
+                </a>
+                <span class="text-xs text-emerald-300 font-mono font-normal block sm:inline">(Mustaqil Loyiha)</span>
+              </h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                Alohida mustaqil shaxsiy loyiha: Ingliz tili maktabi <a href="https://instagram.com/rezonans_english_school" target="_blank" rel="noopener noreferrer" class="text-emerald-300 font-semibold hover:underline">@rezonans_english_school</a> uchun iPhone 16 Pro Max orqali dinamik trend Reels tasvirga olish hamda yangi o'quvchilarni jalb qilish uchun Meta Ads target sozlamalari.
+              </p>
+            </div>
+          </div>
+
+          <!-- Project 4: Python Bot -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/20 card-glow-swim" data-category="python">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-[#020b06] to-[#062416] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="bot" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-white border border-white/10">
+                Python • aiogram • SQLite
+              </div>
+            </div>
+            <div class="space-y-2">
+              <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider">Python Dasturlash</span>
+              <h4 class="text-xl font-bold font-display text-white">Telegram Avtomatlashtirish Boti</h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                Mijozlarga xizmat ko'rsatish, buyurtmalarni qabul qilish va to'lov tizimlari bilan integratsiyalashgan aqlli Telegram bot.
+              </p>
+            </div>
+          </div>
+
+          <!-- Project 5: Motion Design & Animatsiya -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/20 card-glow-swim" data-category="video">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-[#051c11] to-[#0a3821] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="sparkles" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-emerald-300 border border-white/10">
+                Motion • Kinetik Matn • VFX
+              </div>
+            </div>
+            <div class="space-y-2">
+              <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider">Motion Dizayn</span>
+              <h4 class="text-xl font-bold font-display text-white">Motion Design & Dinamik Animatsiyalar</h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                Video roliklar va Reels uchun kinetik tipografiya, 3D vizual elementlar, harakatli subtitrlar va trend motion animatsiyalari.
+              </p>
+            </div>
+          </div>
+
+          <!-- Project 6: Python Scraper -->
+          <div class="portfolio-item card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/20 card-glow-swim" data-category="python">
+            <div class="card-glare"></div>
+            <div class="h-44 rounded-2xl bg-gradient-to-tr from-[#020e07] to-[#0b2b1a] border border-emerald-500/30 relative overflow-hidden flex items-center justify-center p-4 mb-5 group">
+              <i data-lucide="cpu" class="w-16 h-16 text-emerald-400/40 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded-lg text-[10px] font-mono text-white border border-white/10">
+                BeautifulSoup • Pandas • API
+              </div>
+            </div>
+            <div class="space-y-2">
+              <span class="text-emerald-400 text-xs font-mono uppercase tracking-wider">Python Muhandislik</span>
+              <h4 class="text-xl font-bold font-display text-white">Web Scraping & Data Parser</h4>
+              <p class="text-gray-300 text-xs leading-relaxed">
+                Internetdagi ma'lumotlarni avtomatlashtirilgan tarzda yig'ish, tozalash va Excel/JSON formatida tayyor hisobot shakllantirish.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SPORTS & HOBBIES (SOG'LOM TAN VA QIZIQISHLAR)
+         ========================================================================== -->
+    <section id="sports-hobbies" class="py-24 relative bg-black/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="dumbbell" class="w-3.5 h-3.5"></i>
+            <span>Intizom, Sport & Lifestyle</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            SPORT & <span class="text-gradient-emerald">XOBBI DUNYOSI</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-400 text-sm sm:text-base">
+            "Kuchli iroda va sog'lom jismoniy holat ijodkorlik hamda muhandislikdagi eng katta tayanchdir."
+          </p>
+        </div>
+
+        <!-- Sport & Hobbies Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Card 1: Bodybuilding -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl border border-emerald-500/40">
+              🏋️‍♂️
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Sport & Kuch</span>
+              <h3 class="text-xl font-bold font-display text-white">Body Builder</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Temir intizom, to'g'ri rejim va jismoniy chidamlilik. Har kungi intizom ongni ham tiniqlashtiradi.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-emerald-300">
+              <span>Fokus:</span>
+              <span>Muntazam Mashg'ulot</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Futbol -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-white/20 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white text-2xl border border-white/20">
+              ⚽
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Jamoaviy Sport</span>
+              <h3 class="text-xl font-bold font-display text-white">Futbol</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Maydonda tezkor fikrlash, kombinatsiyalar yaratish va g'alaba uchun jamoaviy kurash ruhi.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-gray-300">
+              <span>Afzallik:</span>
+              <span>Strategiya & Tezlik</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Basketbol -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl border border-emerald-500/40">
+              🏀
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Dinamika</span>
+              <h3 class="text-xl font-bold font-display text-white">Basketbol</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Sekundning bir ulushida qaror qabul qilish, bo'y-bast harakati va havoda muvozanatni saqlash.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-emerald-300">
+              <span>Afzallik:</span>
+              <span>Chaqqonlik & Sakrash</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Volleyball -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-white/20 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white text-2xl border border-white/20">
+              🏐
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Sport</span>
+              <h3 class="text-xl font-bold font-display text-white">Volleyball</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              To'pni nazorat qilish, reaksiyani charxlash va to'siq ustidan zarba yo'llash mahorati.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-gray-300">
+              <span>Afzallik:</span>
+              <span>Reaksiya & Taktika</span>
+            </div>
+          </div>
+
+          <!-- Card 5: PingPong -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-white/20 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white text-2xl border border-white/20">
+              🏓
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Sport & Chaqqonlik</span>
+              <h3 class="text-xl font-bold font-display text-white">PingPong (Stol Tennisi)</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Mikro-reaksiya va ko'z-qo'l koordinatsiyasini favqulodda tezlashtiruvchi nozik sport turi.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-gray-300">
+              <span>Afzallik:</span>
+              <span>Yuqori Diqqat</span>
+            </div>
+          </div>
+
+          <!-- Card 6: Playstation Games -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl border border-emerald-500/40">
+              🎮
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Xobbi & Vizual</span>
+              <h3 class="text-xl font-bold font-display text-white">Playstation Games</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Kino darajasidagi 3D grafika, syujetlar va interaktiv olamlarni o'rganish orqali ijodiy ilhom olish.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-emerald-300">
+              <span>Platforma:</span>
+              <span>PS Gaming & Storytelling</span>
+            </div>
+          </div>
+
+          <!-- Card 7: Reading Books -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-white/20 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white text-2xl border border-white/20">
+              📚
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Xobbi & Mutolaa</span>
+              <h3 class="text-xl font-bold font-display text-white">Reading Books</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Kitobxonlik — ongni boyituvchi, tafakkurni kengaytiruvchi va biznes/texnologiya falsafasini ochib beruvchi manba.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-gray-300">
+              <span>Yo'nalish:</span>
+              <span>Shaxsiy Rivojlanish & IT</span>
+            </div>
+          </div>
+
+          <!-- Card 8: Ingliz tili -->
+          <div class="card-tilt glass-panel p-6 rounded-3xl border border-emerald-500/30 space-y-4 card-glow-swim">
+            <div class="card-glare"></div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl border border-emerald-500/40">
+              🇬🇧
+            </div>
+            <div>
+              <span class="text-emerald-400 font-mono text-[11px] uppercase tracking-wider">Til & Xalqaro IT</span>
+              <h3 class="text-xl font-bold font-display text-white">Ingliz Tili (English)</h3>
+            </div>
+            <p class="text-gray-300 text-xs leading-relaxed">
+              Global montaj trendlari, rasmiy dasturlash dokumentatsiyalari va jahon mutaxassislari bilan erkin muloqot.
+            </p>
+            <div class="pt-2 flex items-center justify-between text-[11px] font-mono border-t border-white/10 text-emerald-300">
+              <span>Maqsad:</span>
+              <span>Xalqaro Loyihalar</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CONTACT & LOCATION (ALOQA VA XABAR QOLDIRISH)
+         ========================================================================== -->
+    <section id="contact" class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase tracking-widest glow-badge-flow">
+            <i data-lucide="mail-check" class="w-3.5 h-3.5"></i>
+            <span>Hamkorlik & Aloqa</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-white">
+            BOG'LANISH & <span class="text-gradient-emerald">LOYIHA BOSHLASH</span>
+          </h2>
+          <div class="heading-contour-beam"></div>
+          <p class="text-gray-400 text-sm sm:text-base">
+            Video montaj, mobilografiya yoki dasturiy buyurtmalar bo'yicha bog'laning. Tez orada javob qaytaraman!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Contact Info Column -->
+          <div class="lg:col-span-5 space-y-6">
+            
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-emerald-500/30 space-y-6 card-glow-swim">
+              <h3 class="text-2xl font-bold font-display text-white">Sarvar Ziyodullayev</h3>
+              <p class="text-sm text-gray-300">
+                Savollaringiz, tijoriy reklama roliklari yoki IT loyihalar bo'yicha to'g'ridan-to'g'ri aloqaga chiqing.
+              </p>
+
+              <!-- Location item -->
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/10">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1">
+                  <span class="text-xs text-gray-400 font-mono">Hozirgi faoliyat manzili:</span>
+                  <p class="text-sm font-semibold text-white">Qashqadaryo viloyati, Qarshi shahri</p>
+                  <span class="text-[11px] text-gray-400 block font-mono">QDTU 3-kurs talabasi (Dasturiy Injenering)</span>
+                  <div class="pt-1 flex flex-wrap gap-2">
+                    <button class="copy-trigger text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono" data-copy="Qashqadaryo viloyati, Qarshi shahri" data-copy-label="Qarshi manzili">
+                      <i data-lucide="copy" class="w-3 h-3"></i> Qarshi manzilini nusxalash
+                    </button>
+                    <span class="text-white/20">•</span>
+                    <span class="text-[11px] text-gray-400 font-mono">Tug'ilgan joy: Kitob tumani</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone item -->
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/10">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="phone-call" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1">
+                  <span class="text-xs text-gray-400 font-mono">Telefon raqam:</span>
+                  <p class="text-sm font-semibold text-white">+998 (95) 612-07-15</p>
+                  <button class="copy-trigger text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono pt-1" data-copy="+998956120715" data-copy-label="Telefon raqam">
+                    <i data-lucide="copy" class="w-3 h-3"></i> Raqamni nusxalash
+                  </button>
+                </div>
+              </div>
+
+              <!-- Telegram, Instagram & Email Links -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <a href="https://t.me/Sarvarbek_zs" target="_blank" class="p-3.5 rounded-2xl bg-[#0088cc]/10 border border-[#0088cc]/30 text-white hover:bg-[#0088cc]/20 transition-all flex items-center justify-between text-xs font-semibold group">
+                  <div class="flex items-center gap-2.5">
+                    <i data-lucide="send" class="w-4 h-4 text-[#0088cc]"></i>
+                    <span>@Sarvarbek_zs</span>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-gray-400 group-hover:text-white"></i>
+                </a>
+
+                <a href="https://instagram.com/sarvarvision_" target="_blank" class="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-white hover:bg-rose-500/20 transition-all flex items-center justify-between text-xs font-semibold group">
+                  <div class="flex items-center gap-2.5">
+                    <i data-lucide="instagram" class="w-4 h-4 text-rose-400"></i>
+                    <span>@sarvarvision_</span>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-gray-400 group-hover:text-white"></i>
+                </a>
+              </div>
+
+              <!-- Email item -->
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/10">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1">
+                  <span class="text-xs text-gray-400 font-mono">Email manzil:</span>
+                  <p class="text-sm font-semibold text-white break-all">sarvarziyodullayev346@gmail.com</p>
+                  <button class="copy-trigger text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono pt-1" data-copy="sarvarziyodullayev346@gmail.com" data-copy-label="Email manzil">
+                    <i data-lucide="copy" class="w-3 h-3"></i> Emailni nusxalash
+                  </button>
+                </div>
+              </div>
+
+              <!-- Real-time Uzbekistan Clock -->
+              <div class="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-xs font-mono">
+                <span class="text-gray-400 flex items-center gap-2">
+                  <i data-lucide="clock" class="w-4 h-4 text-emerald-400"></i> Mahalliy vaqt:
+                </span>
+                <span id="uzb-live-clock" class="text-emerald-300 font-bold">Yuklanmoqda...</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Contact Form Column -->
+          <div class="lg:col-span-7">
+            <div class="glass-panel p-6 sm:p-10 rounded-3xl border border-white/20 card-glow-swim">
+              
+              <h3 class="text-2xl font-bold font-display text-white mb-2">Xabar Yuborish</h3>
+              <p class="text-sm text-gray-400 mb-6">Loyihangiz tafsilotlarini yozib qoldiring, tezda aloqaga chiqaman.</p>
+
+              <form id="contact-form" class="space-y-4">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-mono text-gray-300">Ismingiz *</label>
+                    <input type="text" id="contact-name" required placeholder="Masalan: Azizbek" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all">
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-xs font-mono text-gray-300">Telefon yoki Telegram @user *</label>
+                    <input type="text" id="contact-phone" required placeholder="+998 90 ... yoki @username" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all">
+                  </div>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label class="text-xs font-mono text-gray-300">Xizmat turi</label>
+                  <select id="contact-service" class="w-full px-4 py-3 rounded-xl bg-[#030c07] border border-white/10 text-white text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all">
+                    <option value="video">🎬 Professional Video Montaj</option>
+                    <option value="mobilography">📱 Tijoriy Mobilografiya & Reels</option>
+                    <option value="smm">🎯 SMM & Meta Targetologiya</option>
+                    <option value="python">🐍 Python Telegram Bot / Dastur</option>
+                    <option value="other">Boshqa taklif yoki hamkorlik</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1.5">
+                  <label class="text-xs font-mono text-gray-300">Xabaringiz matni *</label>
+                  <textarea id="contact-message" required rows="4" placeholder="Loyiha haqida qisqacha ma'lumot bering..." class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all resize-none"></textarea>
+                </div>
+
+                <button type="submit" id="form-submit-btn" class="w-full btn-emerald-primary py-4 text-sm">
+                  <span>Xabar Yuborish</span>
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+
+                <p class="text-[11px] text-gray-400 text-center font-mono">
+                  🔒 Ma'lumotlaringiz xavfsiz va to'g'ridan-to'g'ri Sarvar Ziyodullayevga yetkaziladi.
+                </p>
+
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="border-t border-white/10 bg-[#020503] relative z-10 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Monogram & Identity -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00ff87] to-[#047857] p-[1.5px]">
+          <div class="w-full h-full bg-[#030d07] rounded-[10px] flex items-center justify-center font-display font-extrabold text-white text-base">
+            SZ
+          </div>
+        </div>
+        <div>
+          <span class="font-display font-bold text-white text-base">SARVAR ZIYODULLAYEV</span>
+          <p class="text-[11px] text-emerald-400/80 font-mono">Kreativ Montaj & Dasturiy Injenering</p>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="text-center text-xs text-gray-400 font-mono max-w-md">
+        "Texnologiya va san'at uchrashgan nuqtada haqiqiy sehr paydo bo'ladi."
+      </div>
+
+      <!-- Copyright & Scroll Top -->
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-gray-500 font-mono">© 2026 Sarvar Ziyodullayev</span>
+        <a href="/admin" class="text-xs text-emerald-400/80 hover:text-emerald-300 font-mono hover:underline flex items-center gap-1">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+          <span>Admin</span>
+        </a>
+        <a href="#home" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all" title="Yuqoriga qaytish">
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Floating Telegram Quick-Chat Button for 1-Click Client Conversion -->
+  <a href="https://t.me/Sarvarbek_zs" target="_blank" rel="noopener noreferrer" class="floating-quick-chat glow-border-swim" title="Sarvar bilan to'g'ridan-to'g'ri bog'lanish">
+    <span class="relative flex h-2.5 w-2.5">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00ff87]"></span>
+    </span>
+    <i data-lucide="send" class="w-4 h-4 text-[#00ff87]"></i>
+    <span class="hidden sm:inline font-mono text-xs font-bold text-white hover:text-emerald-300">Telegram'da Yozish</span>
+    <span class="sm:hidden font-mono text-xs font-bold text-white">Telegram</span>
+  </a>
+
+  <!-- Toast Notification Container -->
+  <div id="toast">
+    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+    <span id="toast-msg">Muvaffaqiyatli bajarildi!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/three-scene.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
