@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -27,6 +27,16 @@ app = FastAPI(
     version="2.0.0",
     lifespan=lifespan
 )
+
+# Enterprise Security Headers Middleware (Protection against XSS, Clickjacking, MIME-sniffing)
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
 
 # CORS Middleware (permits requests from frontend)
 app.add_middleware(
@@ -65,6 +75,21 @@ if assets_dir.exists():
 async def serve_index():
     index_file = BASE_DIR / "index.html"
     return FileResponse(str(index_file))
+
+# Search Engine Crawlers (Google & Yandex)
+@app.get("/robots.txt", include_in_schema=False)
+async def serve_robots():
+    robots_file = BASE_DIR / "robots.txt"
+    if robots_file.exists():
+        return FileResponse(str(robots_file), media_type="text/plain")
+    return "User-agent: *\nAllow: /"
+
+@app.get("/sitemap.xml", include_in_schema=False)
+async def serve_sitemap():
+    sitemap_file = BASE_DIR / "sitemap.xml"
+    if sitemap_file.exists():
+        return FileResponse(str(sitemap_file), media_type="application/xml")
+    return "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'></urlset>"
 
 # Admin Panel page
 @app.get("/admin", include_in_schema=False)
